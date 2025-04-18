@@ -1,19 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{html,js,ts,jsx,tsx}"
-  ]
-  , // Ajuste os caminhos conforme sua estrutura
-  theme: {
-    fontFamily: {
-      'sans': ['Poppins', 'sans-serif']
+    content: ["./index.html", "./script.js"],
+    theme: {
+      extend: {},
     },
-    extend: {
-      backgroundImage: {
-        "home": "url('/assets/bg.png')"
-      }
-    },
-  },
-  plugins: [],
-};
+    plugins: [],
+  }
+  
