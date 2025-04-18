@@ -1,0 +1,33 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.14.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build # Use o comando de build que você adicionou
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ftp://your-ftp-server.com # Substitua pelo seu servidor FTP
+          username: ${{ secrets.FTP_USERNAME }} # Certifique-se de que este segredo está configurado
+          password: ${{ secrets.FTP_PASSWORD }} # Certifique-se de que este segredo está configurado
+          local-dir: ./styles # Altere para o diretório que contém os arquivos a serem enviados
