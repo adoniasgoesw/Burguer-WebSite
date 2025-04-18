@@ -18,11 +18,17 @@ jobs:
         with:
           node-version: '22.14.0'
 
+      - name: Clean node_modules
+        run: rm -rf node_modules
+
       - name: Install dependencies
         run: npm install
 
+      - name: Install Tailwind CSS globally
+        run: npm install -g tailwindcss
+
       - name: Build project
-        run: npm run build # Use o comando de build que você adicionou
+        run: npm run build
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
