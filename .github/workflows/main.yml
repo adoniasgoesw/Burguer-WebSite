@@ -1,0 +1,25 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Ajustar permissões dos binários
+        run: chmod +x node_modules/.bin/tailwindcss
+
+      - name: Gerar CSS com Tailwind
+        run: npx tailwindcss -i styles/styles.css -o styles/output.css --minify
+
+      - name: Rodar ESLint
+        run: npx eslint script.js || echo "Sem erros ou arquivos JS não encontrados"

@@ -1,0 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Gerar CSS com Tailwind
+        run: npx tailwindcss -i styles/styles.css -o styles/output.css --minify
+
+      - name: Copiar arquivos para pasta de deploy
+        run: |
+          mkdir deploy
+          cp index.html deploy/
+          cp styles/output.css deploy/
+          cp script.js deploy/
+
+      - name: Deploy para GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
