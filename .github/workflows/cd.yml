@@ -1,0 +1,29 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Gerar CSS com Tailwind
+        run: npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --minify
+
+      - name: Empacotar projeto (Simulando CD)
+        uses: actions/upload-artifact@v4
+        with:
+          name: projetozipado.zip
+          path: |
+            index.html
+            styles/output.css
+            scripts/**/*.js
+            README.md
