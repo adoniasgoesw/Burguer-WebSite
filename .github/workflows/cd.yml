@@ -1,30 +1,30 @@
-name: CD - Deploy to GitHub Pages
+name: CD - Build Tailwind e Deploy no GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Clonar repositório
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm install
 
-      - name: Build Tailwind
-        run: npx tailwindcss -i ./styles/input.css -o ./styles/output.css --minify
+      - name: Gerar CSS com Tailwind
+        run: npx tailwindcss -i ./styles/styles.css -o ./styles/output.css
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./ # Altere se o HTML estiver em uma subpasta

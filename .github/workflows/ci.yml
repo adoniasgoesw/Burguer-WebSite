@@ -1,26 +1,26 @@
-name: CI - Lint and Build
+name: CI - Lint
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Clonar repositório
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm install
 
-      - name: Run Tailwind build
-        run: npx tailwindcss -i ./styles/input.css -o ./styles/output.css --minify
+      - name: Rodar ESLint
+        run: npx eslint .
