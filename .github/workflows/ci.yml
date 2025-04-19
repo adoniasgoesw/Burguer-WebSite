@@ -1,0 +1,19 @@
+name: CI - Validação de HTML
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  html-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Validar HTML com htmlhint
+        uses: tj-actions/htmlhint@v3
+        with:
+          config_file: .htmlhintrc
