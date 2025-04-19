@@ -9,21 +9,23 @@ jobs:
   deliver:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Instalar dependências
         run: npm install
 
-      - name: Gerar CSS com Tailwind
-        run: npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --minify
+      - name: Ajustar permissões do Tailwind
+        run: chmod +x node_modules/.bin/tailwindcss
 
-      - name: Empacotar projeto (Simulando CD)
+      - name: Gerar CSS com Tailwind
+        run: npx tailwindcss -i styles/styles.css -o styles/output.css --minify
+
+      - name: Upload de artefatos simulando deploy
         uses: actions/upload-artifact@v4
         with:
-          name: projetozipado.zip
+          name: site-para-deploy
           path: |
             index.html
             styles/output.css
-            scripts/**/*.js
-            README.md
+            script.js
