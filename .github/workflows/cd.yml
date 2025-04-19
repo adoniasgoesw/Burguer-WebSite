@@ -3,27 +3,35 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main  # ou qualquer outra branch de produção
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Passo 1: Checkout do código
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Passo 2: Instalar dependências e build
-    - name: Install dependencies and build
-      run: |
-        npm install
-        npm run build  # ou o comando que você usa para gerar o build
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-    # Passo 3: Deploy para o GitHub Pages (ou outro destino)
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: build  # ou a pasta gerada pelo seu build
-        branch: gh-pages  # ou a branch para deploy
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fix tailwind permission
+        run: chmod +x ./node_modules/.bin/tailwindcss
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: styles # <- você pode mudar pra `build` se preferir gerar o site lá
