@@ -1,37 +1,30 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Ou o nome da branch que você usa para produção
+      - main  # Pode ajustar para qualquer branch que você usa para produção
 
 jobs:
-  deploy:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}  # Recomenda-se para evitar sobrecarga no deploy
     runs-on: ubuntu-latest
 
     steps:
-      # Checar o código
-      - name: Checkout do código
-        uses: actions/checkout@v3
+      # Passo 1: Checkout do código
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
 
-      # Instalar Node.js para ferramentas de build (se necessário)
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      # Passo 2: Instalar dependências (se necessário) e rodar o build (caso seu projeto precise)
+      - name: Instalar dependências e rodar build
+        run: |
+          npm ci
+          npm run build  # Se seu projeto não usa build, pule esta etapa
 
-      # Instalar dependências (caso precise, ex: para build)
-      - name: Instalar dependências
-        run: npm install
-
-      # Fazer build (se necessário)
-      - name: Build (se necessário)
-        run: npm run build # Caso você tenha algum build, ajuste conforme necessário
-
-      # Deploy para GitHub Pages
-      - name: Deploy para GitHub Pages
+      # Passo 3: Deploy para GitHub Pages
+      - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # A branch onde será feito o deploy
-          folder: dist      # A pasta onde o build é gerado. Se não for usado build, ajuste para o diretório correto, ex: 'public'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          folder: build  # Pasta do projeto que você deseja fazer o deploy, normalmente é a pasta build ou dist
+          branch: gh-pages  # Branch de deploy
+          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token (não precisa configurar manualmente, ele é gerado automaticamente)
