@@ -1,4 +1,4 @@
-name: CI - Validação de HTML
+name: Validação de HTML
 
 on:
   push:
@@ -9,11 +9,18 @@ on:
 jobs:
   html-validation:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Validar HTML com htmlhint
-        uses: tj-actions/htmlhint@v3
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
         with:
-          config_file: .htmlhintrc
+          node-version: '18'
+
+      - name: Instalar htmlhint
+        run: npm install -g htmlhint
+
+      - name: Rodar htmlhint
+        run: htmlhint .
