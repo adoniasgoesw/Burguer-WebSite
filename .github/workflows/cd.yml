@@ -1,30 +1,29 @@
-name: Build and Deploy to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
     branches:
-      - main  # Pode ajustar para qualquer branch que você usa para produção
+      - main  # ou qualquer outra branch de produção
 
 jobs:
   build-and-deploy:
-    concurrency: ci-${{ github.ref }}  # Recomenda-se para evitar sobrecarga no deploy
     runs-on: ubuntu-latest
 
     steps:
-      # Passo 1: Checkout do código
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
+    # Passo 1: Checkout do código
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # Passo 2: Instalar dependências (se necessário) e rodar o build (caso seu projeto precise)
-      - name: Instalar dependências e rodar build
-        run: |
-          npm ci
-          npm run build  # Se seu projeto não usa build, pule esta etapa
+    # Passo 2: Instalar dependências e build
+    - name: Install dependencies and build
+      run: |
+        npm install
+        npm run build  # ou o comando que você usa para gerar o build
 
-      # Passo 3: Deploy para GitHub Pages
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: build  # Pasta do projeto que você deseja fazer o deploy, normalmente é a pasta build ou dist
-          branch: gh-pages  # Branch de deploy
-          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token (não precisa configurar manualmente, ele é gerado automaticamente)
+    # Passo 3: Deploy para o GitHub Pages (ou outro destino)
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: build  # ou a pasta gerada pelo seu build
+        branch: gh-pages  # ou a branch para deploy
+        token: ${{ secrets.GITHUB_TOKEN }}
