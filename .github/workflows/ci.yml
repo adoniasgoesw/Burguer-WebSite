@@ -1,26 +1,28 @@
-name: Validação de HTML
+name: Continuous Integration (CI)
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main  # ou a branch em que você deseja rodar o CI
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  html-validation:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Instalar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
 
-      - name: Instalar htmlhint
-        run: npm install -g htmlhint
+    - name: Install dependencies
+      run: npm install
 
-      - name: Rodar htmlhint
-        run: htmlhint .
+    - name: Run build
+      run: npm run build  # ou o comando para compilar seu código
