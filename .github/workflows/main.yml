@@ -15,8 +15,8 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar Tailwind build
-        run: npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --minify
+      - name: Gerar CSS com Tailwind
+        run: npx tailwindcss -i styles/styles.css -o styles/output.css --minify
 
       - name: Rodar ESLint
         run: npx eslint scripts/**/*.js
