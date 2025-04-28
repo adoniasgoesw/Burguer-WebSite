@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-<<<<<<< HEAD
       # Instalar dependências, incluindo o Jest
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -33,23 +32,18 @@ jobs:
           npm test  # Executa os testes definidos no script "test" do package.json
 
       # Build the site with Jekyll in Docker
-=======
->>>>>>> 1740ec013bc0f4167c652597e901e9f3442b439e
       - name: Build the site with Jekyll in Docker
         run: |
           docker run \
-          -v ${{ github.workspace }}:/srv/jekyll \
-          -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-          jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+            -v ${{ github.workspace }}:/srv/jekyll \
+            -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+            jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
 
-<<<<<<< HEAD
       # Deploy to GitHub Pages
-=======
->>>>>>> 1740ec013bc0f4167c652597e901e9f3442b439e
       - name: Deploy to GitHub Pages
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: refs/heads/gh-pages
+          branch: gh-pages
           directory: _site
           force: true
