@@ -1,0 +1,49 @@
+name: CI + CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Instalar dependências, incluindo o Jest
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Ajuste a versão do Node.js conforme sua necessidade
+
+      - name: Install dependencies
+        run: |
+          npm install  # Instala todas as dependências, incluindo o Jest
+
+      # Rodar os testes com Jest
+      - name: Run tests
+        run: |
+          npm test  # Executa os testes definidos no script "test" do package.json
+
+      # Build the site with Jekyll in Docker
+      - name: Build the site with Jekyll in Docker
+        run: |
+          docker run \
+          -v ${{ github.workspace }}:/srv/jekyll \
+          -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+          jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: refs/heads/gh-pages
+          directory: _site
+          force: true
