@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addressInput = document.getElementById("address");
     const addressWarn = document.getElementById("address-warn");
     const spanItem = document.getElementById("date-spam");
+    const { addToCart, removeItemCart, checkOpen } = require('./cart');
   
     let cart = [];
   
