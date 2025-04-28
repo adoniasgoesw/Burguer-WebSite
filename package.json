@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --watch",
     "test": "jest",   
-    "build": "npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --minify"  // Mantendo o script de build
+    "build": "npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --minify"  
   },
   "keywords": [],
   "author": "",
