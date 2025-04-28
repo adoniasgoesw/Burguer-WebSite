@@ -1,4 +1,5 @@
 const { addToCart, removeItemCart, checkOpen } = require('../script');
+const { addToCart, removeItemCart, checkOpen } = require('../cart');
 
 describe('Carrinho de Compras', () => {
   let cart;
