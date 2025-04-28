@@ -15,8 +15,8 @@ jobs:
           curl -H "Content-Type: application/json" \
                -X POST \
                -d '{"content": "🚀 Um novo push/merge foi feito na branch `main`!"}' \
-<<<<<<< HEAD
+
                ${{ secrets.DISCORD_WEBHOOK_URL }}
-=======
+
                ${{ secrets.DISCORD_WEBHOOK_URL }}
->>>>>>> 1740ec013bc0f4167c652597e901e9f3442b439e
+
