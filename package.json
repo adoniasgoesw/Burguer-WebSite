@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --watch",
+<<<<<<< HEAD
     "test": "jest"
+=======
+    "build": "npx tailwindcss -i ./styles/styles.css -o ./styles/output.css --minify"
+>>>>>>> 1740ec013bc0f4167c652597e901e9f3442b439e
   },
   "keywords": [],
   "author": "",
